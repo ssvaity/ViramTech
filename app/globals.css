@@ -1,8 +1,16 @@
 @import "tailwindcss";
 
+/* Enable class-based dark mode (next-themes toggles .dark on <html>) */
+@custom-variant dark (&:where(.dark, .dark *));
+
 :root {
   --background: #ffffff;
   --foreground: #171717;
+}
+
+.dark {
+  --background: #0a0a0a;
+  --foreground: #ededed;
 }
 
 @theme inline {
@@ -12,15 +20,35 @@
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/*
+  ViramTech brand palette.
+  Brand-named tokens (bg-brand-*, text-brand-*, etc.) plus a remap of the
+  indigo/violet shades the UI already uses onto the brand blues, so existing
+  accent/gradient classes pick up brand colors automatically.
+
+    Deep Navy   #14284E  Primary    headers, base
+    Slate Blue  #2A3E77  Secondary  panels, navigation
+    Royal Blue  #3F56A4  Accent     highlights, icons
+    Periwinkle  #597CBD  Hover      hover states, info panels
+    Sky Blue    #33A5DB  CTA        call to actions, accent elements
+*/
+@theme {
+  --color-brand-navy: #14284e;
+  --color-brand-slate: #2a3e77;
+  --color-brand-royal: #3f56a4;
+  --color-brand-periwinkle: #597cbd;
+  --color-brand-sky: #33a5db;
+
+  /* Remap the shades currently used across the app to the brand palette. */
+  --color-indigo-400: #597cbd; /* Periwinkle — lighter accent / dark-mode text */
+  --color-indigo-500: #3f56a4; /* Royal Blue — primary accent, highlights, icons */
+  --color-indigo-600: #2a3e77; /* Slate Blue — primary buttons (hover → Royal) */
+  --color-violet-500: #33a5db; /* Sky Blue — gradient accent end */
+  --color-violet-600: #33a5db; /* Sky Blue */
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans), Arial, Helvetica, sans-serif;
 }
