@@ -22,7 +22,8 @@ export function HeroParallax({ projects }: { projects: Project[] }) {
   // Row 1: the projects in order. Row 2: the SAME projects, rotated by one so
   // each lines up at a different point ("different times") as the rows drift.
   const firstRow = projects;
-  const secondRow = [...projects.slice(1), ...projects.slice(0, 1)];
+  // Bottom row: staggered against row 1, with AirCalibre (projects[0]) bottom-left.
+  const secondRow = [projects[0], ...projects.slice(2), ...projects.slice(1, 2)];
 
   const ref = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
@@ -53,14 +54,14 @@ export function HeroParallax({ projects }: { projects: Project[] }) {
     springConfig,
   );
   const translateY = useSpring(
-    useTransform(scrollYProgress, [0, 0.2], [-700, 200]),
+    useTransform(scrollYProgress, [0, 0.2], [-500, -40]),
     springConfig,
   );
 
   return (
     <div
       ref={ref}
-      className="relative flex h-[230vh] flex-col self-auto overflow-hidden py-40 antialiased [perspective:1000px] [transform-style:preserve-3d]"
+      className="relative flex h-[200vh] flex-col self-auto overflow-hidden pt-40 pb-16 antialiased [perspective:1000px] [transform-style:preserve-3d]"
     >
       <Header />
       <motion.div style={{ rotateX, rotateZ, translateY, opacity }}>
@@ -69,12 +70,13 @@ export function HeroParallax({ projects }: { projects: Project[] }) {
             <ProjectCard project={p} translate={translateX} key={`r1-${p.title}`} />
           ))}
         </motion.div>
-        <motion.div className="flex flex-row space-x-12">
-          {secondRow.map((p) => (
+        {/* Offset the bottom row by ~half a card so it staggers (brick layout). */}
+        <motion.div className="flex translate-x-[28rem] flex-row space-x-12">
+          {secondRow.map((p, i) => (
             <ProjectCard
               project={p}
               translate={translateXReverse}
-              key={`r2-${p.title}`}
+              key={`r2-${i}-${p.title}`}
             />
           ))}
         </motion.div>
@@ -90,7 +92,8 @@ function Header() {
         Our work
       </p>
       <h1 className="mt-4 text-3xl font-extrabold leading-[1.05] tracking-tight sm:text-5xl md:text-7xl">
-        AI that ships — <br /> and pays off.
+        AI that ships — <br />{" "}
+        <span className="font-serif font-normal italic">and</span> pays off.
       </h1>
       <p className="mt-8 max-w-2xl text-base opacity-70 md:text-xl">
         A selection of projects where ViramTech put production AI to work. Hover

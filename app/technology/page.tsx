@@ -1,11 +1,17 @@
+import Link from "next/link";
+import { LuBrainCircuit, LuServer, LuBlocks, LuArrowRight } from "react-icons/lu";
 import { Eyebrow } from "@/components/ui";
-import { foundation, architecture } from "@/lib/content";
+import { foundation } from "@/lib/content";
 import { FoundationCardSwap } from "@/components/FoundationCardSwap";
+import { CapabilityDeepDive } from "@/components/CapabilityDeepDive";
+import { InfrastructureDeepDive } from "@/components/InfrastructureDeepDive";
 
 export const metadata = {
   title: "Technology — ViramTech",
   description: "The ViramTech AI stack and technical architecture.",
 };
+
+const pillarIcons = [LuBrainCircuit, LuServer, LuBlocks];
 
 export default function Technology() {
   return (
@@ -43,45 +49,75 @@ export default function Technology() {
           </ul>
         </div>
 
-        <div className="relative h-[440px] sm:h-[520px]">
+        <div className="relative h-[480px] sm:h-[560px]">
           <FoundationCardSwap />
         </div>
       </div>
 
-      {/* Architecture */}
-      <h2 className="mt-20 text-2xl font-extrabold tracking-tight">
-        Technical architecture
+      {/* A closer look at each pillar */}
+      <h2 className="mt-24 text-2xl font-extrabold tracking-tight sm:text-3xl">
+        A closer look at each pillar
       </h2>
-      <p className="mt-3 max-w-xl opacity-70">
-        Five layers, from the interfaces your users touch down to the
-        infrastructure that runs it all.
-      </p>
-      <div className="mt-8 space-y-3">
-        {architecture.map((a, i) => (
-          <div
-            key={a.layer}
-            className="flex flex-col gap-3 rounded-2xl border border-black/5 bg-black/[0.02] p-6 sm:flex-row sm:items-center sm:gap-6 dark:border-white/10 dark:bg-white/[0.03]"
-            style={{ opacity: 1 - i * 0.04 }}
-          >
-            <div className="flex items-center gap-3 sm:w-56 sm:shrink-0">
-              <span className="flex h-7 w-7 items-center justify-center rounded-full bg-indigo-500/15 text-xs font-bold text-indigo-500">
-                {i + 1}
+      <div className="mt-8 space-y-6">
+        {foundation.map((f, i) => {
+          const Icon = pillarIcons[i % pillarIcons.length];
+          return (
+            <div
+              key={f.title}
+              className="flex flex-col gap-6 rounded-3xl border border-black/5 bg-black/[0.02] p-7 transition hover:border-indigo-500/30 sm:flex-row sm:p-9 dark:border-white/10 dark:bg-white/[0.03]"
+            >
+              <span className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-indigo-500/10 text-indigo-500 dark:text-indigo-400">
+                <Icon size={26} />
               </span>
-              <span className="font-bold">{a.layer}</span>
+              <div>
+                <h3 className="text-xl font-bold tracking-tight">{f.title}</h3>
+                <p className="mt-3 max-w-3xl text-base leading-relaxed opacity-75">
+                  {f.description}
+                </p>
+                <div className="mt-5 flex flex-wrap gap-2">
+                  {f.items.map((it) => (
+                    <span
+                      key={it}
+                      className="rounded-full border border-indigo-500/20 bg-indigo-500/5 px-3 py-1 text-xs font-medium text-indigo-600 dark:text-indigo-300"
+                    >
+                      {it}
+                    </span>
+                  ))}
+                </div>
+              </div>
             </div>
-            <div className="flex flex-wrap gap-2">
-              {a.items.map((it) => (
-                <span
-                  key={it}
-                  className="rounded-full border border-black/10 px-3 py-1 text-xs font-medium opacity-75 dark:border-white/15"
-                >
-                  {it}
-                </span>
-              ))}
-            </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
+
+      {/* AI / ML capabilities — half-page deep dives */}
+      <CapabilityDeepDive />
+
+      {/* Infrastructure — half-page deep dives */}
+      <InfrastructureDeepDive />
+
+      {/* Smooth transition → AI Frameworks & technical architecture page */}
+      <Link
+        href="/technology/architecture"
+        className="group relative mt-20 flex items-center justify-between gap-6 overflow-hidden rounded-3xl border border-indigo-500/20 bg-gradient-to-br from-indigo-600 to-violet-600 px-8 py-10 text-white transition duration-300 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-indigo-500/25"
+      >
+        <span className="pointer-events-none absolute -right-10 -top-10 h-40 w-40 rounded-full bg-white/10 blur-2xl transition-transform duration-500 group-hover:scale-125" />
+        <div className="relative">
+          <span className="font-mono text-xs font-semibold uppercase tracking-[0.2em] text-white/70">
+            Next · The tooling layer
+          </span>
+          <h2 className="mt-2 text-2xl font-extrabold sm:text-3xl">
+            AI frameworks &amp; technical architecture
+          </h2>
+          <p className="mt-2 max-w-xl text-white/80">
+            See how it all comes together — the frameworks that orchestrate your
+            models and the layered stack that runs them in production.
+          </p>
+        </div>
+        <span className="relative flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-white/15 transition-transform duration-300 group-hover:translate-x-1.5">
+          <LuArrowRight size={22} />
+        </span>
+      </Link>
     </section>
   );
 }

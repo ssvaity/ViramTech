@@ -7,19 +7,39 @@ export const TAGLINE =
 export const gaps = [
   {
     title: "Data trapped in silos",
-    body: "Enterprises struggle to integrate fragmented data scattered across systems.",
+    body: "Critical data lives in dozens of disconnected systems — CRMs, ERPs, spreadsheets and data lakes — so no one can see the full picture or act on it in time.",
+    points: [
+      "No single source of truth across teams",
+      "Hours lost to manual exports and reconciliation",
+      "Decisions made on stale, partial data",
+    ],
   },
   {
     title: "Manual, repetitive work",
-    body: "Skilled teams lose hours to repetitive tasks that should be automated.",
+    body: "Skilled teams spend their days on data entry, copy-paste and routine approvals — work that drains morale and only scales by adding more headcount.",
+    points: [
+      "High-value talent stuck on low-value tasks",
+      "Error-prone processes that don't scale",
+      "Slow turnaround on routine requests",
+    ],
   },
   {
     title: "AI without ROI",
-    body: "Most AI investments fail to deliver measurable, bottom-line returns.",
+    body: "Most enterprise AI never leaves the lab. Pilots impress in a demo but stall before production, with no clear link to revenue or cost saved.",
+    points: [
+      "Proofs-of-concept that never ship",
+      "No measurable impact on the bottom line",
+      "Models not built for real-world workloads",
+    ],
   },
   {
     title: "Fragmented tooling",
-    body: "A patchwork of point solutions only adds cost and complexity.",
+    body: "A patchwork of point solutions — each with its own contract, integration and learning curve — only adds cost, complexity and security surface.",
+    points: [
+      "Overlapping tools and duplicated spend",
+      "Brittle integrations that break often",
+      "More vendors means more risk and overhead",
+    ],
   },
 ];
 
@@ -39,10 +59,71 @@ export const vision = [
   },
 ];
 
+// Vision page — vision & mission statements + topic timeline
+export const visionMission = {
+  vision:
+    "To close the gap between enterprise AI ambition and measurable results — making AI-native systems the default, not the exception.",
+  mission:
+    "We transform enterprise operations with intelligent AI — pairing mathematical rigor with production engineering to ship solutions that are secure, scalable and accountable to ROI.",
+};
+
+export type VisionTopic = {
+  topic: string;
+  heading: string;
+  body: string;
+  points: string[];
+};
+
+export const visionTimeline: VisionTopic[] = [
+  {
+    topic: "The Enterprise AI Gap",
+    heading: "Why we exist",
+    body: "Most enterprises aren't short on AI ambition — they're stuck on the fundamentals that stop it from paying off.",
+    points: [
+      "Data trapped in silos that resist integration",
+      "Manual processes burning hours on repetitive work",
+      "AI investments that never reach measurable ROI",
+      "A sprawl of fragmented tools that only add complexity",
+    ],
+  },
+  {
+    topic: "AI-native by design",
+    heading: "The right foundation",
+    body: "We're mathematically rigorous and AI-native from the first line of code — not AI bolted onto legacy systems years later.",
+    points: [
+      "Native AI architecture, not retrofitted plugins",
+      "Models, data and infrastructure designed together",
+      "Built on open, portable frameworks",
+    ],
+  },
+  {
+    topic: "Enterprise-ready",
+    heading: "Secure and scalable from day one",
+    body: "Security and scalability aren't features we add at the end — they're part of the architecture, so solutions hold up under real workloads.",
+    points: [
+      "Security designed in, not bolted on",
+      "Scales from pilot to production without a rewrite",
+      "Multi-cloud and observable by default",
+    ],
+  },
+  {
+    topic: "Results-driven",
+    heading: "Measured by ROI, not hype",
+    body: "Every engagement is anchored to measurable business outcomes — the metrics leadership already cares about, not demo-day vanity numbers.",
+    points: [
+      "Success defined in business terms up front",
+      "ROI tracked, not assumed",
+      "Production impact over proof-of-concept theatre",
+    ],
+  },
+];
+
 // ③ Technology Foundation
 export const foundation = [
   {
     title: "AI / ML Capabilities",
+    description:
+      "The core intelligence layer. We build production-grade models for language, vision, speech and forecasting — then wrap them in autonomous agents that don't just predict, but act on what they learn.",
     items: [
       "Natural Language Processing",
       "Computer Vision",
@@ -53,6 +134,8 @@ export const foundation = [
   },
   {
     title: "Infrastructure",
+    description:
+      "The backbone that keeps it all running. Multi-cloud deployments, automated delivery pipelines and security designed in from day one — so solutions scale to real workloads without surprises or downtime.",
     items: [
       "Multi-cloud (AWS, GCP, Azure)",
       "DevOps & CI/CD",
@@ -62,6 +145,8 @@ export const foundation = [
   },
   {
     title: "AI Frameworks",
+    description:
+      "The tooling that ties everything together. We orchestrate with LangChain, integrate both commercial and open-source LLMs, and fine-tune models on your own data so they speak your business — not generic boilerplate.",
     items: [
       "LangChain",
       "Custom LLM integration",
@@ -80,6 +165,14 @@ export type Product = {
   features: string[];
   useCases: string;
   icon: string;
+  /** Optional header image in /public/products/<slug>.jpg */
+  image?: string;
+  /** 4–6 structured use cases */
+  useCaseList?: { title: string; body: string }[];
+  /** Industry-specific solutions */
+  industries?: { name: string; icon: string; solution: string }[];
+  /** Impact metrics for the chart (bar is 0–100 for the bar height) */
+  metrics?: { label: string; value: string; bar: number }[];
 };
 
 export const products: Product[] = [
@@ -94,10 +187,45 @@ export const products: Product[] = [
       "Real-time analytics & visualization",
       "Multi-source data integration",
       "Automated report generation",
+      "Role-based access & data governance",
+      "Context-aware conversational follow-ups",
     ],
-    useCases:
-      "Banks analyzing customer behavior, retail forecasting trends, healthcare extracting patient insights.",
+    useCases: "Customer behaviour, self-serve reporting and trend forecasting.",
+    useCaseList: [
+      {
+        title: "Customer behaviour analysis",
+        body: "Ask why churn rose last quarter and get a segmented, source-backed answer in seconds.",
+      },
+      {
+        title: "Self-serve reporting",
+        body: "Non-technical teams pull their own dashboards without waiting on the data team.",
+      },
+      {
+        title: "Trend & forecast discovery",
+        body: "Surface emerging patterns across sales, support and product data automatically.",
+      },
+      {
+        title: "Executive briefings",
+        body: "Auto-generate weekly KPI summaries written in plain language.",
+      },
+      {
+        title: "Anomaly detection",
+        body: "Flag unusual spikes or drops the moment they appear in the data.",
+      },
+    ],
+    industries: [
+      { name: "Banking", icon: "🏦", solution: "Analyse transaction and customer data for risk and cross-sell." },
+      { name: "Retail", icon: "🛍️", solution: "Forecast demand and decode basket behaviour in real time." },
+      { name: "Healthcare", icon: "🩺", solution: "Extract insight from patient and operational records." },
+      { name: "SaaS", icon: "💻", solution: "Unify product, billing and support analytics in one query layer." },
+    ],
+    metrics: [
+      { label: "Faster time-to-insight", value: "10×", bar: 95 },
+      { label: "Less analyst workload", value: "60%", bar: 60 },
+      { label: "Data sources unified", value: "20+", bar: 80 },
+    ],
     icon: "💬",
+    image: "/products/dataforge.jpg",
   },
   {
     slug: "predictive-demand-intelligence",
@@ -110,10 +238,46 @@ export const products: Product[] = [
       "Supply-chain optimization",
       "Real-time forecast adjustments",
       "Risk assessment & scenario modelling",
+      "SKU-level demand prediction",
+      "Automated reorder recommendations",
     ],
     useCases:
-      "Retail inventory optimization, manufacturing planning, logistics capacity management.",
+      "Inventory optimization, production planning and logistics capacity.",
+    useCaseList: [
+      {
+        title: "Inventory optimization",
+        body: "Right-size stock at every location to cut both stockouts and overstock.",
+      },
+      {
+        title: "Production planning",
+        body: "Align manufacturing output to predicted demand weeks ahead.",
+      },
+      {
+        title: "Logistics capacity",
+        body: "Plan fleet and warehouse capacity against forecasted volume.",
+      },
+      {
+        title: "Promotion modelling",
+        body: "Simulate the demand impact of pricing and campaign changes.",
+      },
+      {
+        title: "Seasonal shaping",
+        body: "Anticipate seasonal peaks and prepare supply in advance.",
+      },
+    ],
+    industries: [
+      { name: "Retail", icon: "🛍️", solution: "SKU-level forecasts that keep shelves and warehouses balanced." },
+      { name: "Manufacturing", icon: "🏭", solution: "Demand-driven production and procurement planning." },
+      { name: "Logistics", icon: "🚚", solution: "Capacity and route planning against predicted volume." },
+      { name: "CPG", icon: "📦", solution: "Plan promotions and distribution around true demand." },
+    ],
+    metrics: [
+      { label: "Inventory reduced", value: "22%", bar: 70 },
+      { label: "Forecast accuracy", value: "94%", bar: 94 },
+      { label: "Stockouts cut", value: "35%", bar: 65 },
+    ],
     icon: "📈",
+    image: "/products/predictive-demand-intelligence.jpg",
   },
   {
     slug: "document-intelligence-suite",
@@ -126,10 +290,46 @@ export const products: Product[] = [
       "High-accuracy data extraction",
       "Workflow integration & compliance",
       "Automated validation & error detection",
+      "Table & handwriting OCR",
+      "Human-in-the-loop review",
     ],
     useCases:
-      "Financial loan processing, legal contract analysis, healthcare claims — 90% faster processing.",
+      "Loan processing, contract analysis, claims and invoice automation.",
+    useCaseList: [
+      {
+        title: "Loan & credit processing",
+        body: "Extract and validate application data to approve faster with fewer errors.",
+      },
+      {
+        title: "Contract analysis",
+        body: "Surface clauses, obligations and risks across large contract sets.",
+      },
+      {
+        title: "Claims processing",
+        body: "Classify and route claims automatically with exception handling.",
+      },
+      {
+        title: "Invoice automation",
+        body: "Capture line items and reconcile against POs with no manual entry.",
+      },
+      {
+        title: "KYC & onboarding",
+        body: "Verify identity documents and extract details for compliance.",
+      },
+    ],
+    industries: [
+      { name: "Financial services", icon: "🏦", solution: "Automate loan, KYC and statement processing." },
+      { name: "Legal", icon: "⚖️", solution: "Review and extract from contracts at scale." },
+      { name: "Healthcare", icon: "🩺", solution: "Process claims and clinical paperwork accurately." },
+      { name: "Insurance", icon: "🛡️", solution: "Speed up underwriting and claims intake." },
+    ],
+    metrics: [
+      { label: "Faster processing", value: "90%", bar: 90 },
+      { label: "Extraction accuracy", value: "98%", bar: 98 },
+      { label: "Manual review cut", value: "70%", bar: 70 },
+    ],
     icon: "📄",
+    image: "/products/document-intelligence-suite.jpg",
   },
   {
     slug: "predictive-maintenance-ai",
@@ -142,10 +342,46 @@ export const products: Product[] = [
       "Failure prediction with high accuracy",
       "Maintenance schedule optimization",
       "Cost-benefit analysis & ROI tracking",
+      "Anomaly & drift detection",
+      "Digital-twin asset modelling",
     ],
     useCases:
-      "Manufacturing reducing downtime by 40%, utilities extending asset life, fleet optimization.",
+      "Downtime reduction, asset-life extension and fleet optimization.",
+    useCaseList: [
+      {
+        title: "Downtime reduction",
+        body: "Predict failures before they happen and schedule fixes proactively.",
+      },
+      {
+        title: "Asset-life extension",
+        body: "Maintain equipment on condition, not on a fixed calendar.",
+      },
+      {
+        title: "Fleet optimization",
+        body: "Monitor vehicle health and plan servicing across the fleet.",
+      },
+      {
+        title: "Energy efficiency",
+        body: "Spot inefficiencies in running equipment and tune performance.",
+      },
+      {
+        title: "Spare-parts planning",
+        body: "Forecast part demand to avoid both shortages and dead stock.",
+      },
+    ],
+    industries: [
+      { name: "Manufacturing", icon: "🏭", solution: "Cut unplanned line stoppages with condition-based upkeep." },
+      { name: "Utilities", icon: "⚡", solution: "Extend grid and plant asset life with early warnings." },
+      { name: "Fleet & logistics", icon: "🚚", solution: "Predict vehicle failures and optimise servicing." },
+      { name: "Energy", icon: "🛢️", solution: "Monitor turbines and pumps for anomalies in real time." },
+    ],
+    metrics: [
+      { label: "Downtime reduced", value: "40%", bar: 80 },
+      { label: "Failure prediction", value: "92%", bar: 92 },
+      { label: "Maintenance cost cut", value: "25%", bar: 55 },
+    ],
     icon: "🛰️",
+    image: "/products/predictive-maintenance-ai.jpg",
   },
   {
     slug: "enterprise-content-studio",
@@ -158,10 +394,46 @@ export const products: Product[] = [
       "Brand-voice consistency",
       "Content performance analytics",
       "Multi-language support with localization",
+      "SEO optimization built in",
+      "Review & approval workflows",
     ],
     useCases:
-      "Marketing teams scaling content 10×, e-commerce product descriptions.",
+      "Scaling marketing content, product descriptions and localization.",
+    useCaseList: [
+      {
+        title: "Marketing at scale",
+        body: "Produce on-brand blogs, ads and landing copy 10× faster.",
+      },
+      {
+        title: "Product descriptions",
+        body: "Generate consistent, SEO-ready descriptions for huge catalogues.",
+      },
+      {
+        title: "Localization",
+        body: "Adapt content into dozens of languages with cultural nuance.",
+      },
+      {
+        title: "Social campaigns",
+        body: "Spin one idea into channel-ready posts across platforms.",
+      },
+      {
+        title: "Email sequences",
+        body: "Draft and personalise nurture sequences in minutes.",
+      },
+    ],
+    industries: [
+      { name: "Marketing", icon: "📣", solution: "Scale campaign content without scaling headcount." },
+      { name: "E-commerce", icon: "🛒", solution: "Auto-write product copy for large catalogues." },
+      { name: "Media", icon: "📰", solution: "Speed up editorial and localization workflows." },
+      { name: "Agencies", icon: "🎯", solution: "Deliver more client content with brand consistency." },
+    ],
+    metrics: [
+      { label: "Content output", value: "10×", bar: 95 },
+      { label: "Time saved", value: "70%", bar: 70 },
+      { label: "Languages supported", value: "30+", bar: 85 },
+    ],
     icon: "✍️",
+    image: "/products/enterprise-content-studio.jpg",
   },
   {
     slug: "whatsapp-ai-reach",
@@ -174,9 +446,44 @@ export const products: Product[] = [
       "Intelligent lead qualification",
       "Multi-lingual support with cultural context",
       "CRM & marketing-automation integration",
+      "Broadcast & drip campaigns",
+      "Conversation analytics & intent scoring",
     ],
     useCases:
-      "Banks promoting products, insurance lead nurturing, retail campaigns — 90% lower prospecting cost.",
+      "Product promotion, lead nurturing and re-engagement campaigns.",
+    useCaseList: [
+      {
+        title: "Product promotion",
+        body: "Run personalised campaigns that start real conversations at scale.",
+      },
+      {
+        title: "Lead nurturing",
+        body: "Qualify and warm leads automatically before they reach sales.",
+      },
+      {
+        title: "Retail campaigns",
+        body: "Drive offers and footfall with two-way messaging.",
+      },
+      {
+        title: "Appointment booking",
+        body: "Let customers schedule and confirm right inside the chat.",
+      },
+      {
+        title: "Re-engagement",
+        body: "Win back dormant customers with timely, relevant nudges.",
+      },
+    ],
+    industries: [
+      { name: "Banking", icon: "🏦", solution: "Promote products and pre-qualify applicants conversationally." },
+      { name: "Insurance", icon: "🛡️", solution: "Nurture and qualify leads around the clock." },
+      { name: "Retail", icon: "🛍️", solution: "Run high-converting campaigns at a fraction of the cost." },
+      { name: "Real estate", icon: "🏠", solution: "Capture and book interested buyers instantly." },
+    ],
+    metrics: [
+      { label: "Prospecting cost cut", value: "90%", bar: 90 },
+      { label: "Response rate", value: "3×", bar: 75 },
+      { label: "Qualified 24/7", value: "100%", bar: 100 },
+    ],
     icon: "🟢",
   },
   {
@@ -190,49 +497,188 @@ export const products: Product[] = [
       "Multi-agent collaboration",
       "Enterprise system integration",
       "Continuous learning & optimization",
+      "Tool & API use with function calling",
+      "Guardrails, audit logs & monitoring",
     ],
     useCases:
-      "Customer support hitting 80% resolution, sales agents qualifying leads 24/7, HR streamlining onboarding.",
+      "Support automation, sales qualification and back-office ops.",
+    useCaseList: [
+      {
+        title: "Customer support automation",
+        body: "Resolve routine tickets end to end, escalating only edge cases.",
+      },
+      {
+        title: "Sales qualification",
+        body: "Agents engage and qualify leads 24/7 and hand off to reps.",
+      },
+      {
+        title: "HR onboarding",
+        body: "Automate the multi-step paperwork and provisioning of new hires.",
+      },
+      {
+        title: "IT operations",
+        body: "Triage, diagnose and remediate common requests autonomously.",
+      },
+      {
+        title: "Research & analysis",
+        body: "Gather, synthesise and summarise information across sources.",
+      },
+    ],
+    industries: [
+      { name: "Customer service", icon: "🎧", solution: "Autonomous agents that resolve, not just deflect." },
+      { name: "Sales", icon: "📈", solution: "Always-on qualification and follow-up." },
+      { name: "HR", icon: "👥", solution: "Streamline onboarding and employee requests." },
+      { name: "IT operations", icon: "🛠️", solution: "Automate triage and routine remediation." },
+    ],
+    metrics: [
+      { label: "Auto-resolution", value: "80%", bar: 80 },
+      { label: "Always-on coverage", value: "24/7", bar: 100 },
+      { label: "Cost per task cut", value: "65%", bar: 65 },
+    ],
     icon: "🤖",
   },
 ];
 
 // ⑪ Market Opportunity
+// ⑪ Market Opportunity — sourced from public studies
 export const marketStats = [
-  { value: "$150B+", label: "Global enterprise AI market" },
-  { value: "88%", label: "Enterprises going AI-first" },
-  { value: "62%", label: "Adopting agentic AI" },
-  { value: "2028", label: "Autonomous decisions go mainstream" },
+  {
+    value: "$1.81T",
+    label: "Projected global AI market by 2030",
+    source: "Grand View Research",
+  },
+  {
+    value: "36.6%",
+    label: "AI market CAGR, 2024–2030",
+    source: "Grand View Research",
+  },
+  {
+    value: "$15.7T",
+    label: "AI's potential boost to global GDP by 2030",
+    source: "PwC",
+  },
+  {
+    value: "72%",
+    label: "Organizations using AI in ≥1 function",
+    source: "McKinsey, 2024",
+  },
+];
+
+// Global AI market size (USD trillions) — endpoints per Grand View Research,
+// intermediate points follow the cited 36.6% CAGR trajectory.
+export const marketGrowth = {
+  cagr: "36.6%",
+  source: "Grand View Research, 2024",
+  points: [
+    { year: "2023", value: 0.2 },
+    { year: "2024", value: 0.28 },
+    { year: "2025", value: 0.39 },
+    { year: "2026", value: 0.52 },
+    { year: "2027", value: 0.72 },
+    { year: "2028", value: 0.98 },
+    { year: "2029", value: 1.32 },
+    { year: "2030", value: 1.81 },
+  ],
+};
+
+// Enterprise adoption today — McKinsey "The state of AI", 2024
+export const adoptionBars = [
+  { label: "Use AI in at least one business function", value: 72 },
+  { label: "Regularly use generative AI", value: 65 },
+  { label: "Use AI across multiple functions", value: 50 },
+];
+
+// The agentic leap — Gartner predictions, 2024 → 2028
+export const agenticLeap = {
+  source: "Gartner, 2024",
+  fromYear: "2024",
+  toYear: "2028",
+  rows: [
+    {
+      label: "Enterprise software including agentic AI",
+      from: 1,
+      to: 33,
+      fromLabel: "<1%",
+      toLabel: "33%",
+    },
+    {
+      label: "Work decisions made autonomously by AI",
+      from: 0,
+      to: 15,
+      fromLabel: "0%",
+      toLabel: "15%",
+    },
+  ],
+};
+
+// Blog — placeholder posts
+export type BlogPost = {
+  slug: string;
+  title: string;
+  category: string;
+  date: string;
+  readTime: string;
+  excerpt: string;
+  gradient: string;
+};
+
+export const blogPosts: BlogPost[] = [
+  {
+    slug: "beyond-the-pilot",
+    title: "Beyond the pilot: turning enterprise AI experiments into production wins",
+    category: "Enterprise AI",
+    date: "June 2026",
+    readTime: "8 min read",
+    excerpt:
+      "Most enterprise AI never makes it past the demo. Here's the playbook for closing the gap between a promising pilot and a system your business actually runs on — owning the data, the infrastructure and the ROI.",
+    gradient: "from-[#3F56A4] to-[#14284E]",
+  },
+  {
+    slug: "the-agentic-shift",
+    title: "The agentic shift: when AI stops predicting and starts acting",
+    category: "Agentic AI",
+    date: "June 2026",
+    readTime: "6 min read",
+    excerpt:
+      "Agentic systems don't just forecast — they perceive, plan and act. We unpack what changes when autonomy enters your workflows, what it unlocks, and where to keep a human firmly in the loop.",
+    gradient: "from-[#33A5DB] to-[#2A3E77]",
+  },
 ];
 
 // ⑫ Target Sectors
 export const sectors = [
   {
+    slug: "retail",
     name: "Retail & E-commerce",
     icon: "🛍️",
     points: ["Demand forecasting", "Personalization", "Inventory optimization"],
   },
   {
+    slug: "logistics",
     name: "Logistics",
     icon: "🚚",
     points: ["Route optimization", "Demand prediction", "Fleet management"],
   },
   {
+    slug: "banking",
     name: "Banking & Financial Services",
     icon: "🏦",
     points: ["Product marketing", "Fraud detection", "Analytics"],
   },
   {
+    slug: "healthcare",
     name: "Healthcare",
     icon: "🩺",
     points: ["Document processing", "Patient analytics", "Operations"],
   },
   {
+    slug: "manufacturing",
     name: "Manufacturing",
     icon: "🏭",
     points: ["Predictive maintenance", "Supply chain", "Quality control"],
   },
   {
+    slug: "insurance",
     name: "Insurance",
     icon: "🛡️",
     points: ["Claims processing", "Risk assessment", "Engagement"],
@@ -262,24 +708,361 @@ export const whyUs = [
 // ⑭ Technical Architecture (top → bottom)
 export const architecture = [
   {
+    slug: "presentation",
     layer: "Presentation Layer",
-    items: ["Web & mobile apps", "APIs", "WhatsApp integration"],
+    summary:
+      "Where people and other systems meet the platform — across the channels they already use.",
+    components: [
+      { name: "Web & mobile apps", note: "Responsive interfaces your teams and customers actually use." },
+      { name: "APIs", note: "Versioned REST / GraphQL contracts other systems integrate against." },
+      { name: "WhatsApp integration", note: "Reach users on the messaging channels they already live in." },
+    ],
+    why: "Fully decoupled from the AI beneath it, so the experience can change without touching the models.",
   },
   {
+    slug: "ai-ml",
     layer: "AI / ML Layer",
-    items: ["LLMs", "NLP models", "Computer vision", "Predictive analytics"],
+    summary:
+      "The intelligence — models for language, vision and forecasting, and the agents that act on them.",
+    components: [
+      { name: "LLMs", note: "Commercial or open models behind one swappable interface." },
+      { name: "NLP models", note: "Entity, intent and sentiment extraction at scale." },
+      { name: "Computer vision", note: "Detection, OCR and inspection on images and video." },
+      { name: "Predictive analytics", note: "Forecasts and risk scores with calibrated confidence." },
+    ],
+    why: "Models are pluggable, so you adopt the best option without re-architecting everything around them.",
   },
   {
+    slug: "integration",
     layer: "Integration Layer",
-    items: ["LangChain", "API gateway", "Message queues", "Webhooks"],
+    summary:
+      "The connective tissue that lets models, tools and your existing systems talk reliably.",
+    components: [
+      { name: "LangChain", note: "Orchestrates multi-step chains, tool calls and memory." },
+      { name: "API gateway", note: "A single secured entry point with auth and rate limiting." },
+      { name: "Message queues", note: "Decouple workloads and absorb spikes without dropping work." },
+      { name: "Webhooks", note: "Event-driven hooks into the systems you already run." },
+    ],
+    why: "Async, event-driven wiring keeps the system resilient and loosely coupled — no brittle point-to-point spaghetti.",
   },
   {
+    slug: "data",
     layer: "Data Layer",
-    items: ["Vector DBs", "SQL / NoSQL", "Data lakes", "Real-time streams"],
+    summary:
+      "Where everything is stored, retrieved and streamed — structured, unstructured and in motion.",
+    components: [
+      { name: "Vector DBs", note: "Semantic search and retrieval that grounds AI answers." },
+      { name: "SQL / NoSQL", note: "The right store for each shape of data." },
+      { name: "Data lakes", note: "Cheap, durable storage for everything, ready for training." },
+      { name: "Real-time streams", note: "Live event pipelines for up-to-the-second decisions." },
+    ],
+    why: "Purpose-built stores per workload keep queries fast as data volume grows.",
   },
   {
+    slug: "infrastructure",
     layer: "Infrastructure",
-    items: ["Multi-cloud (AWS / GCP / Azure)", "Kubernetes", "Monitoring"],
+    summary:
+      "The foundation that runs it all — portable, automated and observable by default.",
+    components: [
+      { name: "Multi-cloud (AWS / GCP / Azure)", note: "Run anywhere, with no provider lock-in." },
+      { name: "Kubernetes", note: "Self-healing, horizontally-scalable container orchestration." },
+      { name: "Monitoring", note: "Metrics, logs and traces across every single layer." },
+    ],
+    why: "Containerized and cloud-agnostic, so it scales to real workloads and survives failures.",
+  },
+];
+
+// ⑭b AI / ML Capabilities — deep dives (rendered before Technical architecture)
+export type Capability = {
+  slug: string;
+  name: string;
+  tagline: string;
+  body: string;
+  points: { label: string; text: string }[];
+  metric: { value: string; label: string };
+};
+
+export const aiCapabilities: Capability[] = [
+  {
+    slug: "nlp",
+    name: "Natural Language Processing",
+    tagline: "Make sense of every document, message and conversation.",
+    body: "Our language models read unstructured text the way a domain expert would — pulling out entities, classifying intent and reading sentiment at scale, in real time and across dozens of languages.",
+    points: [
+      {
+        label: "Entity & intent extraction",
+        text: "Lift names, amounts, dates and intent straight out of contracts, tickets and email.",
+      },
+      {
+        label: "Summarization & RAG",
+        text: "Condense long documents and ground every answer in your own knowledge base.",
+      },
+      {
+        label: "Multilingual by default",
+        text: "One model, consistent accuracy, 50+ languages — no per-language retraining.",
+      },
+    ],
+    metric: { value: "50+", label: "Languages supported" },
+  },
+  {
+    slug: "vision",
+    name: "Computer Vision",
+    tagline: "Give your systems the ability to see and inspect.",
+    body: "From defect detection on a production line to OCR and shelf analytics, our vision models locate, classify and measure objects in images and video — returning confidence scores your workflows can act on.",
+    points: [
+      {
+        label: "Detection & classification",
+        text: "Find and label objects, people and products frame-by-frame in real time.",
+      },
+      {
+        label: "OCR & document parsing",
+        text: "Turn scanned forms, invoices and IDs into structured, queryable data.",
+      },
+      {
+        label: "Quality & anomaly inspection",
+        text: "Catch defects and outliers earlier than the human eye, consistently.",
+      },
+    ],
+    metric: { value: "<50ms", label: "Per-frame inference" },
+  },
+  {
+    slug: "speech",
+    name: "Speech Recognition",
+    tagline: "Transcribe, understand and route every conversation.",
+    body: "Convert calls, meetings and voice commands into accurate, speaker-labelled transcripts — then layer intent and sentiment on top to automate the follow-up and surface what matters.",
+    points: [
+      {
+        label: "Real-time transcription",
+        text: "Stream speech to text with punctuation and formatting as people talk.",
+      },
+      {
+        label: "Speaker diarization",
+        text: "Know who said what, even on noisy multi-party calls.",
+      },
+      {
+        label: "Voice automation",
+        text: "Power IVR, voice commands and call-routing with intent recognition.",
+      },
+    ],
+    metric: { value: "95%+", label: "Transcription accuracy" },
+  },
+  {
+    slug: "predictive",
+    name: "Predictive Analytics",
+    tagline: "Forecast what's next, before it happens.",
+    body: "We turn historical data into forward-looking signals — demand forecasts, churn risk, predictive maintenance — with calibrated confidence intervals, so teams know exactly how much to trust each call.",
+    points: [
+      {
+        label: "Demand & revenue forecasting",
+        text: "Plan inventory and capacity against a forecast you can defend.",
+      },
+      {
+        label: "Churn & risk scoring",
+        text: "Flag at-risk customers and transactions while there's still time to act.",
+      },
+      {
+        label: "Predictive maintenance",
+        text: "Service equipment before it fails, not on a fixed calendar.",
+      },
+    ],
+    metric: { value: "30%", label: "Fewer stockouts" },
+  },
+  {
+    slug: "agentic",
+    name: "Agentic AI Systems",
+    tagline: "AI that doesn't just predict — it acts.",
+    body: "Autonomous agents that perceive context, plan multi-step work, call your tools and APIs, then verify their own results — keeping a human in the loop exactly where it matters.",
+    points: [
+      {
+        label: "Perceive → Plan → Act → Verify",
+        text: "A closed loop that reasons, executes and checks its own work.",
+      },
+      {
+        label: "Tool & API orchestration",
+        text: "Agents call your systems, databases and services to get real work done.",
+      },
+      {
+        label: "Human-in-the-loop guardrails",
+        text: "Approvals, limits and audit trails keep autonomy under control.",
+      },
+    ],
+    metric: { value: "24/7", label: "Autonomous operation" },
+  },
+];
+
+// ⑭c Infrastructure — deep dives (reuses the Capability shape)
+export const infrastructureComponents: Capability[] = [
+  {
+    slug: "multi-cloud",
+    name: "Multi-cloud",
+    tagline: "Run anywhere — AWS, GCP or Azure, with no lock-in.",
+    body: "We deploy your AI workloads across the clouds you already use, abstracting away provider differences so you keep portability, negotiating leverage and resilience.",
+    points: [
+      {
+        label: "Provider-agnostic",
+        text: "One architecture that runs on AWS, GCP and Azure alike.",
+      },
+      {
+        label: "Failover & resilience",
+        text: "Survive a region — or an entire provider — going down.",
+      },
+      {
+        label: "Cost optimization",
+        text: "Place each workload where it runs cheapest and fastest.",
+      },
+    ],
+    metric: { value: "3", label: "Clouds, one deploy" },
+  },
+  {
+    slug: "devops",
+    name: "DevOps & CI/CD",
+    tagline: "Ship safely, on repeat.",
+    body: "Automated build, test and deploy pipelines validate and release every change the same reliable way — so improvements reach production in hours, not weeks.",
+    points: [
+      {
+        label: "Automated pipelines",
+        text: "Commit → build → test → deploy, completely hands-off.",
+      },
+      {
+        label: "Safe rollouts",
+        text: "Canary and blue-green releases with instant rollback.",
+      },
+      {
+        label: "Infrastructure as code",
+        text: "Reproducible environments, versioned like software.",
+      },
+    ],
+    metric: { value: "100s", label: "Of deploys, zero drama" },
+  },
+  {
+    slug: "microservices",
+    name: "Scalable Microservices",
+    tagline: "Scale the parts that need it, not the whole.",
+    body: "Solutions are built as independent, containerized services that scale horizontally on demand — absorbing spikes gracefully and letting teams ship in parallel.",
+    points: [
+      {
+        label: "Independent scaling",
+        text: "Each service scales to its own load, not the system's.",
+      },
+      {
+        label: "Container-native",
+        text: "Kubernetes-orchestrated, self-healing workloads.",
+      },
+      {
+        label: "Resilient by design",
+        text: "A failure in one service won't take down the rest.",
+      },
+    ],
+    metric: { value: "Auto", label: "Elastic scaling" },
+  },
+  {
+    slug: "security",
+    name: "Enterprise Security",
+    tagline: "Security designed in, not bolted on.",
+    body: "Encryption, access control and auditability are part of the architecture from day one — keeping your data and models protected and compliant at every layer.",
+    points: [
+      {
+        label: "Encryption everywhere",
+        text: "Data protected in transit and at rest, end to end.",
+      },
+      {
+        label: "Access & identity",
+        text: "Role-based access, SSO and least-privilege by default.",
+      },
+      {
+        label: "Audit & compliance",
+        text: "Full audit trails, ready for enterprise governance.",
+      },
+    ],
+    metric: { value: "E2E", label: "Encrypted by default" },
+  },
+];
+
+// ⑭d AI Frameworks — deep dives (reuses the Capability shape)
+export const aiFrameworks: Capability[] = [
+  {
+    slug: "langchain",
+    name: "LangChain",
+    tagline: "Orchestrate models, tools and data into one flow.",
+    body: "We use LangChain to chain LLM calls, tools, retrievers and memory into reliable, multi-step pipelines — so your AI does real work, not just one-shot prompts.",
+    points: [
+      {
+        label: "Chains & agents",
+        text: "Compose multi-step reasoning, tool use and retrieval.",
+      },
+      {
+        label: "Memory & context",
+        text: "Carry conversation and task state across every step.",
+      },
+      {
+        label: "Pluggable tools",
+        text: "Wire in search, APIs and databases as first-class tools.",
+      },
+    ],
+    metric: { value: "1", label: "Orchestration layer" },
+  },
+  {
+    slug: "custom-llm",
+    name: "Custom LLM Integration",
+    tagline: "Use the right model for every job.",
+    body: "Commercial or open, hosted or private — we integrate the LLMs that fit your accuracy, cost and privacy needs behind one consistent interface you can swap at will.",
+    points: [
+      {
+        label: "Provider-agnostic",
+        text: "OpenAI, Anthropic, Azure, Bedrock or your own endpoint.",
+      },
+      {
+        label: "Routing & fallback",
+        text: "Send each request to the best — or cheapest — model.",
+      },
+      {
+        label: "No lock-in",
+        text: "Swap models without rewriting your application.",
+      },
+    ],
+    metric: { value: "Any", label: "Model, one interface" },
+  },
+  {
+    slug: "open-source",
+    name: "Open-source Models",
+    tagline: "Own your models, your data and your costs.",
+    body: "When privacy or economics demand it, we deploy open-source models inside your environment — giving you full control over weights, data residency and inference cost.",
+    points: [
+      {
+        label: "Self-hosted",
+        text: "Run Llama, Mistral and more inside your own cloud.",
+      },
+      {
+        label: "Data stays put",
+        text: "Sensitive data never leaves your perimeter.",
+      },
+      {
+        label: "Cost control",
+        text: "Predictable inference economics at production scale.",
+      },
+    ],
+    metric: { value: "100%", label: "In your environment" },
+  },
+  {
+    slug: "fine-tuning",
+    name: "Fine-tuning Pipelines",
+    tagline: "Models that speak your business, not boilerplate.",
+    body: "We fine-tune and continuously evaluate models on your own data and vocabulary — turning a generic LLM into a specialist that knows your domain, products and tone.",
+    points: [
+      {
+        label: "Domain adaptation",
+        text: "Train on your documents, tickets and terminology.",
+      },
+      {
+        label: "Repeatable pipelines",
+        text: "Versioned datasets, training runs and evaluation.",
+      },
+      {
+        label: "Continuous improvement",
+        text: "Re-tune as your data and needs evolve.",
+      },
+    ],
+    metric: { value: "Your", label: "Data, your model" },
   },
 ];
 
@@ -289,6 +1072,7 @@ export const roadmap = [
     phase: "Phase 1",
     period: "Q1–Q2 2026",
     title: "Pilot programs",
+    status: "In progress",
     items: [
       "Target 5–10 enterprise pilots",
       "Prove ROI with flagship products",
@@ -299,6 +1083,7 @@ export const roadmap = [
     phase: "Phase 2",
     period: "Q3–Q4 2026",
     title: "Scale & expand",
+    status: "Up next",
     items: [
       "Launch the full product suite",
       "Expand to 50+ customers",
@@ -309,6 +1094,7 @@ export const roadmap = [
     phase: "Phase 3",
     period: "2027",
     title: "Market leadership",
+    status: "Planned",
     items: [
       "Geographic expansion",
       "Vertical-specific solutions",

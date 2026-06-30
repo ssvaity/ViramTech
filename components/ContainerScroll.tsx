@@ -26,17 +26,19 @@ export function ContainerScroll({
     return () => window.removeEventListener("resize", checkMobile);
   }, []);
 
+  // Keep the card near full size on mobile so the console stays readable.
   const scaleDimensions = (): [number, number] =>
-    isMobile ? [0.7, 0.9] : [1.05, 1];
+    isMobile ? [0.95, 1] : [1.05, 1];
 
-  const rotate = useTransform(scrollYProgress, [0, 1], [20, 0]);
+  const rotate = useTransform(scrollYProgress, [0, 1], [isMobile ? 10 : 20, 0]);
   const scale = useTransform(scrollYProgress, [0, 1], scaleDimensions());
-  const translate = useTransform(scrollYProgress, [0, 1], [0, -100]);
+  // Less title travel on mobile so it doesn't slide into the section above it.
+  const translate = useTransform(scrollYProgress, [0, 1], [0, isMobile ? -40 : -100]);
 
   return (
     <div
       ref={containerRef}
-      className="relative flex h-[60rem] items-center justify-center p-2 md:h-[80rem] md:p-20"
+      className="relative mt-12 flex h-[42rem] items-center justify-center p-2 md:mt-0 md:h-[80rem] md:p-20"
     >
       <div
         className="relative w-full py-10 md:py-40"

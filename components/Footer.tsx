@@ -5,18 +5,15 @@ const groups = [
   {
     title: "Explore",
     links: [
-      { label: "Products", href: "/products" },
-      { label: "Industries", href: "/industries" },
+      { label: "DataForge", href: "/products/dataforge" },
+      { label: "Agentic AI Platform", href: "/products/agentic-ai-platform" },
       { label: "Technology", href: "/technology" },
       { label: "Our Work", href: "/work" },
     ],
   },
   {
     title: "Company",
-    links: [
-      { label: "About", href: "/about" },
-      { label: "Contact", href: "/contact" },
-    ],
+    links: [{ label: "Contact", href: "/contact" }],
   },
 ];
 
@@ -24,7 +21,7 @@ export function Footer() {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="mt-24 border-t border-black/5 dark:border-white/10">
+    <footer className="border-t border-black/5 dark:border-white/10">
       <div className="mx-auto max-w-6xl px-6 py-14">
         <div className="flex flex-col gap-12 md:flex-row md:justify-between">
           {/* Brand */}
@@ -51,8 +48,7 @@ export function Footer() {
               </span>
             </Link>
             <p className="mt-5 text-sm leading-relaxed opacity-60">
-              Enterprise AI, delivered — solutions that turn data into decisions
-              and deliver measurable ROI.
+              Accelerate your business growth with strength-driven technology.
             </p>
           </div>
 

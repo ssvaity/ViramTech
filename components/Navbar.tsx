@@ -6,25 +6,75 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useTheme } from "next-themes";
-import { products, sectors, foundation } from "@/lib/content";
+import {
+  LuLanguages,
+  LuEye,
+  LuAudioLines,
+  LuTrendingUp,
+  LuBot,
+  LuShoppingBag,
+  LuTruck,
+  LuLandmark,
+  LuStethoscope,
+  LuFactory,
+  LuShieldCheck,
+  LuBrainCircuit,
+  LuServer,
+  LuBlocks,
+  LuMail,
+  LuNewspaper,
+} from "react-icons/lu";
+import { products, sectors, foundation, architecture } from "@/lib/content";
 
-const links = [
-  { href: "/products", label: "Products", menu: "products" as const },
-  { href: "/industries", label: "Industries", menu: "industries" as const },
+const links: {
+  href: string;
+  label: string;
+  menu?: MenuKey;
+  noLink?: boolean;
+}[] = [
+  // noLink menus open a dropdown but don't navigate to a page of their own.
+  { href: "/products", label: "Solutions", menu: "products" as const, noLink: true },
+  { href: "/industries", label: "Industries", menu: "industries" as const, noLink: true },
   { href: "/technology", label: "Technology", menu: "technology" as const },
-  { href: "/work", label: "Our Work" },
-  { href: "/about", label: "About", menu: "about" as const },
+  { href: "/about", label: "About", menu: "about" as const, noLink: true },
+];
+
+// AI/ML capabilities shown in the Solutions dropdown (from the Technology page).
+const capabilities = [
+  { label: "Natural Language Processing", Icon: LuLanguages, slug: "nlp" },
+  { label: "Computer Vision", Icon: LuEye, slug: "vision" },
+  { label: "Speech Recognition", Icon: LuAudioLines, slug: "speech" },
+  { label: "Predictive Analytics", Icon: LuTrendingUp, slug: "predictive" },
+  { label: "Agentic AI Systems", Icon: LuBot, slug: "agentic" },
+];
+
+// Icons for industry sectors + technology pillars (match content order).
+const sectorIcons = [
+  LuShoppingBag,
+  LuTruck,
+  LuLandmark,
+  LuStethoscope,
+  LuFactory,
+  LuShieldCheck,
+];
+const pillarIcons = [LuBrainCircuit, LuServer, LuBlocks];
+
+// Foundation pillars deep-link to the first section of their area on /technology.
+const foundationLinks = [
+  "/technology#nlp",
+  "/technology#multi-cloud",
+  "/technology/architecture#langchain",
+];
+
+const aboutLeft = [
+  { label: "Our vision", note: "AI-native, built for the enterprise", href: "/about/vision" },
+  { label: "Why ViramTech", note: "Speed, expertise, full-stack control", href: "/about/why" },
+  { label: "Our roadmap", note: "Pilots → scale → market leadership", href: "/about/roadmap" },
+  { label: "Market opportunity", note: "A $150B+ enterprise AI market", href: "/about/market" },
+  { label: "Our work", note: "Projects we've shipped", href: "/work" },
 ];
 
 type MenuKey = "products" | "industries" | "technology" | "about";
-
-const aboutItems = [
-  { label: "Vision & Mission", href: "/about#vision" },
-  { label: "The Opportunity", href: "/about#opportunity" },
-  { label: "Why ViramTech", href: "/about#why" },
-  { label: "Our Roadmap", href: "/about#roadmap" },
-  { label: "Contact Us", href: "/contact" },
-];
 
 function SunIcon() {
   return (
@@ -161,12 +211,27 @@ export function Navbar() {
                 : "opacity-80 hover:bg-black/5 hover:opacity-100 dark:hover:bg-white/5"
             }`;
             if (link.menu) {
+              const inner = (
+                <>
+                  {link.label}
+                  <Chevron open={menu === link.menu} />
+                </>
+              );
               return (
                 <li key={link.href} onMouseEnter={() => openMenu(link.menu!)} onMouseLeave={scheduleClose}>
-                  <Link href={link.href} className={`flex items-center gap-1 ${base}`}>
-                    {link.label}
-                    <Chevron open={menu === link.menu} />
-                  </Link>
+                  {link.noLink ? (
+                    <button
+                      type="button"
+                      onClick={() => openMenu(link.menu!)}
+                      className={`flex items-center gap-1 ${base}`}
+                    >
+                      {inner}
+                    </button>
+                  ) : (
+                    <Link href={link.href} className={`flex items-center gap-1 ${base}`}>
+                      {inner}
+                    </Link>
+                  )}
                 </li>
               );
             }
@@ -193,52 +258,64 @@ export function Navbar() {
         </div>
       </motion.nav>
 
-      {/* Products mega-dropdown */}
+      {/* Solutions mega-dropdown */}
       <div
         onMouseEnter={() => openMenu("products")}
         onMouseLeave={scheduleClose}
-        className={`${panelBase} w-[min(94vw,800px)] ${
+        className={`${panelBase} w-[min(94vw,940px)] p-8 ${
           menu === "products"
             ? "visible translate-y-0 opacity-100"
             : "invisible -translate-y-1 opacity-0"
         }`}
       >
-        <div className="p-2.5">
-          <div className="rounded-2xl border border-black/5 bg-black/[0.03] p-6 dark:border-white/5 dark:bg-white/[0.04]">
-            <div className="grid grid-cols-3 gap-x-6 gap-y-5">
+        <div className="grid grid-cols-[0.85fr_1.15fr] gap-10">
+          {/* Left: capabilities */}
+          <div className="border-r border-black/5 pr-10 dark:border-white/10">
+            <h4 className="text-xs font-bold uppercase tracking-[0.15em] opacity-40">
+              Capabilities for every business need
+            </h4>
+            <ul className="mt-5 space-y-1">
+              {capabilities.map(({ label, Icon, slug }) => (
+                <li key={label}>
+                  <Link
+                    href={`/technology#${slug}`}
+                    onClick={() => setMenu(null)}
+                    className="group -mx-2 flex items-center gap-3 rounded-xl px-2 py-2.5 transition hover:bg-black/5 dark:hover:bg-white/5"
+                  >
+                    <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-indigo-500/10 text-indigo-500 dark:text-indigo-400">
+                      <Icon size={18} />
+                    </span>
+                    <span className="text-sm font-bold tracking-tight group-hover:text-indigo-500 dark:group-hover:text-indigo-400">
+                      {label}
+                    </span>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Right: products */}
+          <div>
+            <h4 className="text-xs font-bold uppercase tracking-[0.15em] opacity-40">
+              Our AI products
+            </h4>
+            <div className="mt-5 grid grid-cols-2 gap-x-6 gap-y-1">
               {products.map((p) => (
                 <Link
                   key={p.slug}
-                  href={`/products#${p.slug}`}
+                  href={`/products/${p.slug}`}
                   onClick={() => setMenu(null)}
-                  className="group -mx-3 rounded-2xl px-3 py-2 transition hover:bg-black/5 dark:hover:bg-white/5"
+                  className="group -mx-2 block rounded-xl px-2 py-2.5 transition hover:bg-black/5 dark:hover:bg-white/5"
                 >
-                  <span className="flex items-center gap-1.5 text-[13px] font-medium opacity-50">
-                    <span className="text-sm">{p.icon}</span>
+                  <span className="block text-sm font-bold tracking-tight group-hover:text-indigo-500 dark:group-hover:text-indigo-400">
                     {p.name}
                   </span>
-                  <span className="mt-1 block text-sm font-medium leading-snug opacity-90 transition-colors group-hover:text-indigo-500 dark:group-hover:text-indigo-400">
+                  <span className="mt-0.5 block text-xs leading-snug opacity-55">
                     {p.kicker}
                   </span>
                 </Link>
               ))}
             </div>
-          </div>
-
-          <div className="flex items-center justify-between px-4 py-3">
-            <span className="text-sm opacity-60">
-              New:{" "}
-              <span className="font-medium opacity-90">
-                Agentic AI Platform now live
-              </span>
-            </span>
-            <Link
-              href="/products"
-              onClick={() => setMenu(null)}
-              className="text-sm font-semibold text-indigo-500 transition-colors hover:text-indigo-400 hover:underline dark:text-indigo-400"
-            >
-              View all products →
-            </Link>
           </div>
         </div>
       </div>
@@ -253,39 +330,34 @@ export function Navbar() {
             : "invisible -translate-y-1 opacity-0"
         }`}
       >
-        <div className="p-2.5">
-          <div className="rounded-2xl border border-black/5 bg-black/[0.03] p-6 dark:border-white/5 dark:bg-white/[0.04]">
-            <div className="grid grid-cols-3 gap-x-6 gap-y-5">
-              {sectors.map((s) => (
+        <div className="p-8">
+          <h4 className="text-xs font-bold uppercase tracking-[0.15em] opacity-40">
+            Industries we serve
+          </h4>
+          <div className="mt-5 grid grid-cols-2 gap-x-8 gap-y-1">
+            {sectors.map((s, i) => {
+              const Icon = sectorIcons[i % sectorIcons.length];
+              return (
                 <Link
                   key={s.name}
-                  href="/industries"
+                  href={`/industries#${s.slug}`}
                   onClick={() => setMenu(null)}
-                  className="group -mx-3 rounded-2xl px-3 py-2 transition hover:bg-black/5 dark:hover:bg-white/5"
+                  className="group -mx-2 flex items-start gap-3 rounded-xl px-2 py-2.5 transition hover:bg-black/5 dark:hover:bg-white/5"
                 >
-                  <span className="flex items-center gap-1.5 text-[13px] font-medium opacity-50">
-                    <span className="text-sm">{s.icon}</span>
-                    {s.name}
+                  <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-indigo-500/10 text-indigo-500 dark:text-indigo-400">
+                    <Icon size={18} />
                   </span>
-                  <span className="mt-1 block text-sm font-medium leading-snug opacity-90 transition-colors group-hover:text-indigo-500 dark:group-hover:text-indigo-400">
-                    {s.points.join(" · ")}
+                  <span>
+                    <span className="block text-sm font-bold tracking-tight group-hover:text-indigo-500 dark:group-hover:text-indigo-400">
+                      {s.name}
+                    </span>
+                    <span className="mt-0.5 block text-xs leading-snug opacity-55">
+                      {s.points.join(" · ")}
+                    </span>
                   </span>
                 </Link>
-              ))}
-            </div>
-          </div>
-
-          <div className="flex items-center justify-between px-4 py-3">
-            <span className="text-sm opacity-60">
-              Built for the sectors that run on data
-            </span>
-            <Link
-              href="/industries"
-              onClick={() => setMenu(null)}
-              className="text-sm font-semibold text-indigo-500 transition-colors hover:text-indigo-400 hover:underline dark:text-indigo-400"
-            >
-              Explore industries →
-            </Link>
+              );
+            })}
           </div>
         </div>
       </div>
@@ -294,47 +366,67 @@ export function Navbar() {
       <div
         onMouseEnter={() => openMenu("technology")}
         onMouseLeave={scheduleClose}
-        className={`${panelBase} w-[min(94vw,720px)] ${
+        className={`${panelBase} w-[min(94vw,860px)] ${
           menu === "technology"
             ? "visible translate-y-0 opacity-100"
             : "invisible -translate-y-1 opacity-0"
         }`}
       >
-        <div className="p-2.5">
-          <div className="rounded-2xl border border-black/5 bg-black/[0.03] p-6 dark:border-white/5 dark:bg-white/[0.04]">
-            <div className="grid grid-cols-3 gap-x-6 gap-y-2">
-              {foundation.map((f) => (
-                <div key={f.title}>
-                  <h4 className="mb-2.5 text-[13px] font-semibold uppercase tracking-wider text-indigo-500 dark:text-indigo-400">
-                    {f.title}
-                  </h4>
-                  <ul className="space-y-1.5">
-                    {f.items.map((it) => (
-                      <li key={it}>
-                        <Link
-                          href="/technology"
-                          onClick={() => setMenu(null)}
-                          className="block text-sm font-medium leading-snug opacity-80 transition-colors hover:text-indigo-500 hover:opacity-100 dark:hover:text-indigo-400"
-                        >
-                          {it}
-                        </Link>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              ))}
-            </div>
+        <div className="grid grid-cols-[0.95fr_1.05fr] gap-10 p-8">
+          {/* Left: foundation pillars */}
+          <div className="border-r border-black/5 pr-10 dark:border-white/10">
+            <h4 className="text-xs font-bold uppercase tracking-[0.15em] opacity-40">
+              Technology foundation
+            </h4>
+            <ul className="mt-5 space-y-1">
+              {foundation.map((f, i) => {
+                const Icon = pillarIcons[i % pillarIcons.length];
+                return (
+                  <li key={f.title}>
+                    <Link
+                      href={foundationLinks[i] ?? "/technology"}
+                      onClick={() => setMenu(null)}
+                      className="group -mx-2 flex items-center gap-3 rounded-xl px-2 py-2.5 transition hover:bg-black/5 dark:hover:bg-white/5"
+                    >
+                      <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-indigo-500/10 text-indigo-500 dark:text-indigo-400">
+                        <Icon size={18} />
+                      </span>
+                      <span className="text-sm font-bold tracking-tight group-hover:text-indigo-500 dark:group-hover:text-indigo-400">
+                        {f.title}
+                      </span>
+                    </Link>
+                  </li>
+                );
+              })}
+            </ul>
           </div>
 
-          <div className="flex items-center justify-between px-4 py-3">
-            <span className="text-sm opacity-60">A full AI stack, owned end to end</span>
+          {/* Right: technical architecture */}
+          <div>
             <Link
-              href="/technology"
+              href="/technology/architecture"
               onClick={() => setMenu(null)}
-              className="text-sm font-semibold text-indigo-500 transition-colors hover:text-indigo-400 hover:underline dark:text-indigo-400"
+              className="text-xs font-bold uppercase tracking-[0.15em] opacity-40 transition hover:text-indigo-500 hover:opacity-100"
             >
-              See the architecture →
+              Technical architecture →
             </Link>
+            <div className="mt-5 space-y-1">
+              {architecture.map((a) => (
+                <Link
+                  key={a.layer}
+                  href={`/technology/architecture#${a.slug}`}
+                  onClick={() => setMenu(null)}
+                  className="group -mx-2 block rounded-xl px-2 py-2 transition hover:bg-black/5 dark:hover:bg-white/5"
+                >
+                  <span className="block text-sm font-bold tracking-tight group-hover:text-indigo-500 dark:group-hover:text-indigo-400">
+                    {a.layer}
+                  </span>
+                  <span className="mt-0.5 block text-xs leading-snug opacity-55">
+                    {a.components.map((c) => c.name).join(" · ")}
+                  </span>
+                </Link>
+              ))}
+            </div>
           </div>
         </div>
       </div>
@@ -343,38 +435,83 @@ export function Navbar() {
       <div
         onMouseEnter={() => openMenu("about")}
         onMouseLeave={scheduleClose}
-        className={`${panelBase} w-[min(90vw,560px)] p-7 ${
+        className={`${panelBase} w-[min(94vw,680px)] ${
           menu === "about"
             ? "visible translate-y-0 opacity-100"
             : "invisible -translate-y-1 opacity-0"
         }`}
       >
-        <div className="grid grid-cols-2 gap-8">
-          <div>
-            <h3 className="text-2xl font-extrabold tracking-tight">
-              About{" "}
-              <span className="bg-gradient-to-r from-indigo-500 to-violet-500 bg-clip-text text-transparent">
-                ViramTech
-              </span>
-            </h3>
-            <p className="mt-3 text-sm leading-relaxed opacity-65">
-              An AI-native studio building enterprise solutions that deliver
-              measurable ROI.
-            </p>
-          </div>
-          <ul className="space-y-0.5">
-            {aboutItems.map((it) => (
-              <li key={it.href}>
+        <div className="grid grid-cols-2 gap-10 p-8">
+          {/* Left: who we are */}
+          <div className="border-r border-black/5 pr-10 dark:border-white/10">
+            <h4 className="text-xs font-bold uppercase tracking-[0.15em] opacity-40">
+              Who we are
+            </h4>
+            <div className="mt-5 space-y-1">
+              {aboutLeft.map((it) => (
                 <Link
+                  key={it.label}
                   href={it.href}
                   onClick={() => setMenu(null)}
-                  className="block rounded-xl px-3 py-2.5 text-base font-bold tracking-tight transition hover:bg-black/5 hover:text-indigo-500 dark:hover:bg-white/5"
+                  className="group -mx-2 block rounded-xl px-2 py-2 transition hover:bg-black/5 dark:hover:bg-white/5"
                 >
-                  {it.label}
+                  <span className="block text-sm font-bold tracking-tight group-hover:text-indigo-500 dark:group-hover:text-indigo-400">
+                    {it.label}
+                  </span>
+                  <span className="mt-0.5 block text-xs leading-snug opacity-55">
+                    {it.note}
+                  </span>
+                </Link>
+              ))}
+            </div>
+          </div>
+
+          {/* Right: get in touch */}
+          <div>
+            <h4 className="text-xs font-bold uppercase tracking-[0.15em] opacity-40">
+              Get in touch
+            </h4>
+            <ul className="mt-5 space-y-1">
+              <li>
+                <Link
+                  href="/contact"
+                  onClick={() => setMenu(null)}
+                  className="group -mx-2 flex items-center gap-3 rounded-xl px-2 py-2.5 transition hover:bg-black/5 dark:hover:bg-white/5"
+                >
+                  <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-indigo-500/10 text-indigo-500 dark:text-indigo-400">
+                    <LuMail size={18} />
+                  </span>
+                  <span>
+                    <span className="block text-sm font-bold tracking-tight group-hover:text-indigo-500 dark:group-hover:text-indigo-400">
+                      Contact us
+                    </span>
+                    <span className="mt-0.5 block text-xs opacity-55">
+                      Reach our team
+                    </span>
+                  </span>
                 </Link>
               </li>
-            ))}
-          </ul>
+              <li>
+                <Link
+                  href="/blog"
+                  onClick={() => setMenu(null)}
+                  className="group -mx-2 flex items-center gap-3 rounded-xl px-2 py-2.5 transition hover:bg-black/5 dark:hover:bg-white/5"
+                >
+                  <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-indigo-500/10 text-indigo-500 dark:text-indigo-400">
+                    <LuNewspaper size={18} />
+                  </span>
+                  <span>
+                    <span className="block text-sm font-bold tracking-tight group-hover:text-indigo-500 dark:group-hover:text-indigo-400">
+                      Blog
+                    </span>
+                    <span className="mt-0.5 block text-xs opacity-55">
+                      Ideas on enterprise AI
+                    </span>
+                  </span>
+                </Link>
+              </li>
+            </ul>
+          </div>
         </div>
       </div>
 
@@ -384,19 +521,24 @@ export function Navbar() {
           <ul className="flex flex-col gap-1 text-base font-bold tracking-tight">
             {links.map((link) => {
               const active = isActive(link.href);
+              const cls = `block rounded-2xl px-4 py-3 transition ${
+                active
+                  ? "bg-indigo-500/10 text-indigo-600 dark:text-indigo-400"
+                  : "hover:bg-black/5 dark:hover:bg-white/5"
+              }`;
               return (
                 <li key={link.href}>
-                  <Link
-                    href={link.href}
-                    onClick={() => setOpen(false)}
-                    className={`block rounded-2xl px-4 py-3 transition ${
-                      active
-                        ? "bg-indigo-500/10 text-indigo-600 dark:text-indigo-400"
-                        : "hover:bg-black/5 dark:hover:bg-white/5"
-                    }`}
-                  >
-                    {link.label}
-                  </Link>
+                  {link.noLink ? (
+                    <span className={`${cls} opacity-60`}>{link.label}</span>
+                  ) : (
+                    <Link
+                      href={link.href}
+                      onClick={() => setOpen(false)}
+                      className={cls}
+                    >
+                      {link.label}
+                    </Link>
+                  )}
                 </li>
               );
             })}
